@@ -9,7 +9,7 @@
 
 (setq visible-bell t) ;; No alerting
 
-(set-face-attribute 'default nil :font "Klarna Text Mono" :height 150) ;; The font is only available on the Office laptop, desktop create a fallback
+(set-face-attribute 'default nil :font "K Text Mono" :height 150) ;; The font is only available on the Office laptop, desktop create a fallback
 
 ;;(load-theme 'tango-dark)
 (load-theme 'wombat)
