@@ -98,3 +98,6 @@
          :map minibuffer-local-map
          ("C-r" . 'counsel-minibuffer-history)))
 
+;; load REPL - sbcl
+(load (expand-file-name "~/.quicklisp/slime-helper.el"))
+(setq inferior-lisp-program "sbcl")
