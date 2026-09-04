@@ -1,5 +1,11 @@
 (setq inhibit-startup-message t)
 
+;; (setenv LANG en_US.ISO_8859-1) ;; set english with Umlaut support - Latin-1
+
+;; Use UTF-8 istead of ISO-8859-1
+(prefer-coding-system 'utf-8)  
+(set-language-environment "UTF-8")
+
 (scroll-bar-mode -1) ;; hide scrollbar
 (tool-bar-mode -1) ;; tool bar scrollbar
 ;;(tooltip-bar-mode -1) ;; tooltip scrollbar
@@ -55,7 +61,8 @@
 (use-package command-log-mode)
 
 (use-package ivy
- ;; :diminish
+  
+;; :diminish
   :bind (("C-s" . swiper)
          :map ivy-minibuffer-map
          ("TAB" . ivy-alt-done)	
@@ -102,6 +109,8 @@
 (load (expand-file-name "~/.quicklisp/slime-helper.el"))
 (setq inferior-lisp-program "sbcl")
 
+;; Play pomodoro sound for timer completion
+(setq org-clock-sound "/Users/admin/Downloads/System_crafters_Mseq_-_Coriolis_Effect.mp3")
 
 ;; load org roam
 (use-package org-roam
@@ -109,13 +118,29 @@
   :init
   (setq org-mode-v2-ack t)
   :custom
-  (org-roam-directory "/Users/admin/code/src/github/poulose/notesRoam
-")
+  ;;FIX 16/06/2024: created orginal folder to notesRoam and backup in notesRoam_bkp for git backup
+  (org-roam-directory "/Users/admin/code/src/github/poulose/notesRoam")
+ 
+  ;; Attempt Rebuild with new copied folder directory - issues seems like temporary filesx
+  ;;(org-roam-directory "/Users/admin/code/src/github/poulose/notesRoam")
+  ;; Original directory directory with errors due to space or carriage return in folder name
+  ;; (org-roam-directory "/Users/admin/code/src/github/poulose/notesRoam$'\n'")
+  ;; Created directory with an invalid space, but works fine
+
+  ;; ignore temp files - next attempt to remove errors in DB build
+  (setq org-roam-file-exclude-regexp "\\(?:[#%&]\\|\\.~\\|\\.bak\\|\\.tmp\\|\\.elc\\|\\.gz\\|\\.zip\\)$")  
+
   (org-roam-completion_everywhere: t)
   :bind(("C-c n l" . org-roam-buffer-toggle)
 	("C-c n f" . org-roam-node-find)
 	("C-c n i" . org-roam-node-insert)
+	("C-c n g" . org-roam-graph)
+	("C-c n c" . org-roam-capture)	
 	:map org-mode-map
 	("C-M-i" . completion-at-point))
   :config
   (org-roam-setup))
+;; Line truncation / wrap
+(add-hook 'org-mode-hook
+      (lambda ()
+        (toggle-truncate-lines nil) ))

@@ -1,0 +1,6 @@
+;;; current buffer
+
+(current-buffer)
+
+
+;;; evaluate C-x C-e
