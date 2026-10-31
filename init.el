@@ -109,9 +109,6 @@
   :config
 (setq which-key-idle-delay 1))
 
-(use-package ivy-rich
-  :init (ivy-rich-mode 1))
-
 
 (use-package counsel
   :bind (("M-x" . counsel-M-x)
@@ -119,10 +116,16 @@
          ("C-x C-f" . counsel-find-file)
          :map minibuffer-local-map
          ("C-r" . 'counsel-minibuffer-history)))
+;; Fix order for M1 load - 31 Oct
+(use-package ivy-rich
+  :after counsel
+  :init (ivy-rich-mode 1))
 
+
+;; Issue with quick slime local helper missing - Oct 31 fix later
 ;; load REPL - sbcl
-(load (expand-file-name "~/.quicklisp/slime-helper.el"))
-(setq inferior-lisp-program "sbcl")
+;;(load (expand-file-name "~/.quicklisp/slime-helper.el"))
+;;(setq inferior-lisp-program "sbcl")
 
 ;; Play pomodoro sound for timer completion
 (setq org-clock-sound "/Users/admin/Downloads/System_crafters_Mseq_-_Coriolis_Effect.mp3")
@@ -145,7 +148,7 @@
   ;; ignore temp files - next attempt to remove errors in DB build
   (setq org-roam-file-exclude-regexp "\\(?:[#%&]\\|\\.~\\|\\.bak\\|\\.tmp\\|\\.elc\\|\\.gz\\|\\.zip\\)$")  
 
-  (org-roam-completion_everywhere: t)
+  (org-roam-completion_everywhere t)
   :bind(("C-c n l" . org-roam-buffer-toggle)
 	("C-c n f" . org-roam-node-find)
 	("C-c n i" . org-roam-node-insert)
