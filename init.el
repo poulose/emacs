@@ -1,4 +1,15 @@
+;; -*- lexical-binding: t; -*-
+
+;; Suppress warnings from the 'files log category entirely
+;;(add-to-list 'warning-suppress-types '(files))
+
+;; Alternatively, set the minimum logging level to :error so warnings don't trigger the pop-up window
+(setq warning-minimum-level :error)
+
 (setq inhibit-startup-message t)
+
+;; Suppress missing lexical-binding warnings
+(setq warning-suppress-types '((files lexical-binding)))
 
 ;; (setenv LANG en_US.ISO_8859-1) ;; set english with Umlaut support - Latin-1
 
@@ -6,11 +17,15 @@
 (prefer-coding-system 'utf-8)  
 (set-language-environment "UTF-8")
 
-(scroll-bar-mode -1) ;; hide scrollbar
-(tool-bar-mode -1) ;; tool bar scrollbar
-;;(tooltip-bar-mode -1) ;; tooltip scrollbar
+;; (scroll-bar-mode -1) ;; hide scrollbar
+;; (tool-bar-mode -1) ;; tool bar scrollbar
+;; (tooltip-bar-mode -1) ;; tooltip scrollbar
 (tooltip-hide) ;; alt for above
-(set-fringe-mode 10) ;; set fringe scrollbar
+;; Option A: Comment it out
+;; (set-fringe-mode 10) ;; set fringe scrollbar
+;; Option B: Safely check if it exists before running
+(when (fboundp 'set-fringe-mode)
+  (set-fringe-mode 10))
 (menu-bar-mode -1) ;; menu scrollbar
 
 (setq visible-bell t) ;; No alerting
@@ -144,3 +159,13 @@
 (add-hook 'org-mode-hook
       (lambda ()
         (toggle-truncate-lines nil) ))
+;; Copy past with Cmd + V Oct 13 2026
+
+(unless window-system
+  (defun paste-to-osx (text &optional push)
+    (let ((process-connection-type nil))
+      (let ((proc (start-process "pbcopy" nil "pbcopy")))
+        (process-send-string proc text)
+        (process-send-eof proc))))
+
+  (setq interprogram-cut-function 'paste-to-osx))

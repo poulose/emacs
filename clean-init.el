@@ -93,16 +93,21 @@
   :config
 (setq which-key-idle-delay 1))
 
-(use-package ivy-rich
-  :init (ivy-rich-mode 1))
-
-
 (use-package counsel
+  :after ivy
   :bind (("M-x" . counsel-M-x)
          ("C-x b" . counsel-ibuffer)
          ("C-x C-f" . counsel-find-file)
          :map minibuffer-local-map
-         ("C-r" . 'counsel-minibuffer-history)))
+         ("C-r" . 'counsel-minibuffer-history))
+  :config
+  councsel-mode 1))
+
+(use-package ivy-rich
+  :afer (ivy counsel)
+  :init (ivy-rich-mode 1))
+
+
 
 ;; load REPL - sbcl
 (load (expand-file-name "~/.quicklisp/slime-helper.el"))
